@@ -29,7 +29,7 @@ int main(void)
         }
     }
     
-    printf("\n");
+    printf("\npppppppppppppppppppppp");   
         printf("%d",tamano);
     exit(EXIT_SUCCESS);
 }
