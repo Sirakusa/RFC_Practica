@@ -10,12 +10,13 @@ void apellido_paterno (char *stringg,int j);
 
 void apellido_materno (char *stringg,int j);
 
+void ano_nacimineto (int);
 main(){
     char p[30];
-    int ch,i=0,f;
+    int ch,i=0,f,dia = 0,anio = 0,mes=0;
     char *array;
 
-    printf("Please, provide input: ");
+    printf("Ingrese su nombre: ");
 
     while ((ch = getchar()) != '\n') {
         p[i] = (char)ch;
@@ -25,12 +26,13 @@ main(){
     for (f = 0; f <= i; f++){
         array[f] = p[f];
     }
-    
-    printf("%s  \n",array);
-    printf("%s  \n",todo_mayusculas(array,i));
+    printf("Ingrese su fecha de nacimiento dd mm aa: ");
+    scanf("%d %d %d",&dia,&mes,&anio);
+    printf("%s\n",todo_mayusculas(array,i));
     apellido_paterno(array,i);
     apellido_materno(array,i);
     primera_letra_nom(array);
+    ano_nacimineto (anio);
     free(array);
     exit(EXIT_SUCCESS);
 }
@@ -103,4 +105,11 @@ void apellido_materno (char *stringg,int j){
         i++;
     }
     printf("%c",stringg[h+1]);
+}
+
+void ano_nacimineto (int anio){
+    int ano=0;
+    ano = anio / 10;
+    printf("%d",ano%10);
+    printf("%d",anio%10);
 }
