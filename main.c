@@ -1,20 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <stdbool.h>
 
-void primera_letra_nom (char *stringg);
-
-const char* todo_mayusculas (char *stringg,int j);
-
-void apellido_paterno (char *stringg,int j);
-
-void apellido_materno (char *stringg,int j);
-
+void primera_letra_nom (char *nombre);              // prototopo de fuciones
+const char* todo_mayusculas (char *nombre,int j);
+void apellido_paterno (char *nombre,int j);
+void apellido_materno (char *nombre,int j);
 void ano_nacimineto (int);
+void dia_nacimineto (int);
+int verificar_dia (int,int,int);
+
+// inicio del main
 main(){
     char p[30];
-    int ch,i=0,f,dia = 0,anio = 0,mes=0;
-    char *array;
+    int fecha;
+    int ch,i=0,f,dia,anio,mes,diaa;
+    char *nobre_completo;
 
     printf("Ingrese su nombre: ");
 
@@ -22,72 +24,78 @@ main(){
         p[i] = (char)ch;
         i++;
     }
-    array = (int *)malloc (i*sizeof(int));
+    nobre_completo = (int *)malloc (i*sizeof(int));
     for (f = 0; f <= i; f++){
-        array[f] = p[f];
+        nobre_completo[f] = p[f];
     }
-    printf("Ingrese su fecha de nacimiento dd mm aa: ");
+    printf("Ingrese su fecha de nacimiento 12 05 1983: ");
     scanf("%d %d %d",&dia,&mes,&anio);
-    printf("%s\n",todo_mayusculas(array,i));
-    apellido_paterno(array,i);
-    apellido_materno(array,i);
-    primera_letra_nom(array);
+
+    diaa = verificar_dia (dia,mes,anio);
+    printf("%d \n",dia);
+    printf("%s  \n",todo_mayusculas(nobre_completo,i));
+    apellido_paterno(nobre_completo,i);
+    apellido_materno(nobre_completo,i);
+    primera_letra_nom(nobre_completo);
     ano_nacimineto (anio);
-    free(array);
+    dia_nacimineto (mes);
+    free(nobre_completo);
     exit(EXIT_SUCCESS);
 }
 
-void primera_letra_nom (char *stringg){
+// finaliza el main y comienzan las funciones
+
+const char* todo_mayusculas (char *nombre,int j){
+    int i;
+    for (i = 0; i <= j; i++){
+        if((nombre[i]>=95)&&(nombre[i]<=122)){
+            nombre[i] -= 32;
+        }
+    }
+    return nombre;
+}
+
+void primera_letra_nom (char *nombre){
     char *apellido;
     int j = 0,n = 0,f=0;
     while (n != 1){
-        if ((stringg[j] != 'A')||(stringg[j] != 'E')||(stringg[j] != 'I')
-        ||(stringg[j] != 'O')||(stringg[j] != 'U')){
+        if ((nombre[j] != 'A')||(nombre[j] != 'E')||(nombre[j] != 'I')
+        ||(nombre[j] != 'O')||(nombre[j] != 'U')){
             n = 1;
         }
         else{j++;}
     }
     apellido = (int *)malloc(j*sizeof(int));
     for (f = 0; f <= j; f++){
-        apellido[f] = stringg[f];
+        apellido[f] = nombre[f];
         printf("%c",apellido[f]);
     }
     free(apellido);
 }
 
-const char* todo_mayusculas (char *stringg,int j){
-    int i;
-    for (i = 0; i <= j; i++){
-        if((stringg[i]>=95)&&(stringg[i]<=122)){
-            stringg[i] -= 32;
-        }
-    }
-    return stringg;
-}
-
-void apellido_paterno (char *stringg,int j){
-    int i=0,n=0,h=0;
+void apellido_paterno (char *nombre,int j){
+    int i=0,n=0,espblanco=0;
 
     for (i = 0; i <= j; i++){
-        if(stringg[i]== ' '){
+        if(nombre[i]== ' '){
             n++;
         }
     }
     i = 0;
     while (n == 2){
-        if(stringg[i]== ' '){
-            printf("%c%c",stringg[i+1],stringg[i+2]);
+        if(nombre[i]== ' '){
+            printf("%c%c",nombre[i+1],nombre[i+2]);
             break;
         }
         i++;
     }
     i = 0;
     while ( n == 3){
-        if(stringg[i]== ' '){
-            h++;
+        if(nombre[i]== ' '){
+            espblanco++;
         }
-        if (h == 2){
-            printf("%c%c",stringg[i+1],stringg[i+2]);
+        if (espblanco == 2){
+            printf("%c%c",nombre[i+1],nombre[i+2]);
             break;
         }
         i++;
@@ -95,16 +103,16 @@ void apellido_paterno (char *stringg,int j){
     
 }
 
-void apellido_materno (char *stringg,int j){
+void apellido_materno (char *nombre,int j){
     int i=0,n=0,h=0;
     while (i != j){
-        if (stringg[i] == ' '){
+        if (nombre[i] == ' '){
             n++;
             h = i;
         }
         i++;
     }
-    printf("%c",stringg[h+1]);
+    printf("%c",nombre[h+1]);
 }
 
 void ano_nacimineto (int anio){
@@ -112,4 +120,44 @@ void ano_nacimineto (int anio){
     ano = anio / 10;
     printf("%d",ano%10);
     printf("%d",anio%10);
+}
+
+void dia_nacimineto (int dia){
+    if(dia<=9){
+        printf("0%d",dia);
+    }
+    else{
+        printf("%d",dia);
+    }
+}
+
+int verificar_dia (int diaa,int mes,int anio){
+    int dia;
+    bool x = true;
+    dia = diaa;
+while(x){
+    if(mes == 2){
+        if(anio%4 != 0 && anio%100 == 0 && anio%400 == 0){
+            if(dia<= 29 && dia>=1)
+            x = false;
+        }
+        else if(dia<= 28 && dia>=1){
+            x = false;
+        }
+    }
+    else if(mes == 1||mes == 3||mes == 5||mes == 7|| mes ==8|| mes ==10||mes ==12){
+        if(31>=dia && dia>=1)
+        x = false;
+    }
+    else if(mes == 4||mes ==6||mes == 9||mes == 11){
+        if(dia<= 30 && dia>=1)
+        x = false;
+    }
+    else{
+        printf("el dia que introdujiste es incorrecto: \n");
+        printf("intrduce dia: ");
+        scanf("%d",&dia);
+    }
+}
+return dia;
 }
