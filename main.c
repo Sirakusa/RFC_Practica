@@ -80,7 +80,7 @@ void apellido_paterno (char *stringg,int j){
         i++;
     }
     i = 0;
-    while (n == 3){
+    while ( n == 3){
         if(stringg[i]== ' '){
             h++;
         }
