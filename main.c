@@ -10,6 +10,7 @@ void apellido_materno (char *nombre,int j);
 void ano_nacimineto (int);
 void dia_nacimineto (int);
 int verificar_dia (int,int,int);
+int verificar_mes (int mes);
 
 // inicio del main
 main(){
@@ -30,9 +31,9 @@ main(){
     }
     printf("Ingrese su fecha de nacimiento 12 05 1983: ");
     scanf("%d %d %d",&dia,&mes,&anio);
-
-    diaa = verificar_dia (dia,mes,anio);
-    printf("%d \n",dia);
+    
+    mes = verificar_mes(mes);
+    dia = verificar_dia (dia,mes,anio);
     printf("%s  \n",todo_mayusculas(nobre_completo,i));
     apellido_paterno(nobre_completo,i);
     apellido_materno(nobre_completo,i);
@@ -123,36 +124,30 @@ void ano_nacimineto (int anio){
 }
 
 void dia_nacimineto (int dia){
-    if(dia<=9){
+    if(dia<=9)
         printf("0%d",dia);
-    }
-    else{
+    else
         printf("%d",dia);
-    }
+
 }
 
 int verificar_dia (int diaa,int mes,int anio){
-    int dia;
+    int dia,mess;
     bool x = true;
     dia = diaa;
 while(x){
     if(mes == 2){
-        if(anio%4 != 0 && anio%100 == 0 && anio%400 == 0){
-            if(dia<= 29 && dia>=1)
-            x = false;
-        }
-        else if(dia<= 28 && dia>=1){
-            x = false;
-        }
+        if(anio%4 != 0 && anio%100 == 0 && anio%400 == 0)
+            mess = 29;
+        else
+            mess = 28;
     }
-    else if(mes == 1||mes == 3||mes == 5||mes == 7|| mes ==8|| mes ==10||mes ==12){
-        if(31>=dia && dia>=1)
+    if(mes == 1||mes == 3||mes == 5||mes == 7|| mes ==8|| mes ==10||mes ==12)
+        mess = 31;
+    if(mes == 4||mes ==6||mes == 9||mes == 11)
+        mess = 30;
+    if (dia <= mess && dia >= 1)
         x = false;
-    }
-    else if(mes == 4||mes ==6||mes == 9||mes == 11){
-        if(dia<= 30 && dia>=1)
-        x = false;
-    }
     else{
         printf("el dia que introdujiste es incorrecto: \n");
         printf("intrduce dia: ");
@@ -160,4 +155,19 @@ while(x){
     }
 }
 return dia;
+}
+
+int verificar_mes (int mes){
+    bool x = true;
+    while (x){
+        if(mes <= 12 && mes >= 1)
+        x = true;
+        else{
+            printf("el mes es incorrecto\n");
+            printf("introdusca el mes: ");
+            scanf("%d",&mes);
+            return mes;
+        }
+    return mes;
+    }
 }
