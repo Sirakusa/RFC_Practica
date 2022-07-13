@@ -2,15 +2,17 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <stdbool.h>
+#include <time.h>
 
 void primera_letra_nom (char *nombre);              // prototopo de fuciones
 const char* todo_mayusculas (char *nombre,int j);
 void apellido_paterno (char *nombre,int j);
 void apellido_materno (char *nombre,int j);
 void ano_nacimineto (int);
-void dia_nacimineto (int);
+void mes_y_dia_nacimineto (int mes,int dia);
 int verificar_dia (int,int,int);
 int verificar_mes (int mes);
+void homoclave (void);
 
 // inicio del main
 main(){
@@ -34,12 +36,14 @@ main(){
     
     mes = verificar_mes(mes);
     dia = verificar_dia (dia,mes,anio);
-    printf("%s  \n",todo_mayusculas(nobre_completo,i));
+
+    todo_mayusculas (nobre_completo,i);
     apellido_paterno(nobre_completo,i);
     apellido_materno(nobre_completo,i);
     primera_letra_nom(nobre_completo);
     ano_nacimineto (anio);
-    dia_nacimineto (mes);
+    mes_y_dia_nacimineto (mes,dia);
+    homoclave ();
     free(nobre_completo);
     exit(EXIT_SUCCESS);
 }
@@ -61,10 +65,11 @@ void primera_letra_nom (char *nombre){
     int j = 0,n = 0,f=0;
     while (n != 1){
         if ((nombre[j] != 'A')||(nombre[j] != 'E')||(nombre[j] != 'I')
-        ||(nombre[j] != 'O')||(nombre[j] != 'U')){
+            ||(nombre[j] != 'O')||(nombre[j] != 'U')){
             n = 1;
         }
-        else{j++;}
+        else 
+        j++;
     }
     apellido = (int *)malloc(j*sizeof(int));
     for (f = 0; f <= j; f++){
@@ -101,7 +106,6 @@ void apellido_paterno (char *nombre,int j){
         }
         i++;
     }
-    
 }
 
 void apellido_materno (char *nombre,int j){
@@ -123,12 +127,15 @@ void ano_nacimineto (int anio){
     printf("%d",anio%10);
 }
 
-void dia_nacimineto (int dia){
+void mes_y_dia_nacimineto (int mes,int dia){
+    if(mes<=9)
+        printf("0%d",mes);
+    else
+        printf("%d",mes);
     if(dia<=9)
         printf("0%d",dia);
     else
         printf("%d",dia);
-
 }
 
 int verificar_dia (int diaa,int mes,int anio){
@@ -170,4 +177,22 @@ int verificar_mes (int mes){
         }
     return mes;
     }
+}
+
+void homoclave (void){
+    int i = 0,clave,x;
+    srand(time(NULL));
+
+    for (i = 1; i <= 3; i++){
+        x = rand() % 2;
+        if (x == 0){
+            clave = rand() % 10;
+            printf("%d",clave);
+        }
+        else{
+            clave = rand() % (95-65+1) + 65;
+            printf("%c",clave);
+        }  
+    }
+    
 }
